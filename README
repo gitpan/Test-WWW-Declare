@@ -1,0 +1,119 @@
+SYNOPSIS
+        use Test::WWW::Declare tests => 3;
+        use Your::Web::App::Test;
+
+        Your::Web::App::Test->start_server;
+
+        session 'testuser' => run {
+            flow 'log in and out' => check {
+                flow 'log in' => check {
+                    get 'http://localhost/';
+                    fill form 'login' => {
+                        username => 'testuser',
+                        password => 'drowssap',
+                    };
+                    content should contain 'log out';
+                };
+
+                flow 'log out' => check {
+                    get 'http://localhost/';
+                    click href 'log out';
+                };
+            };
+        };
+
+DESCRIPTION
+    Often in web apps, tests are very dependent on the state set up by
+    previous tests. If one test fails (e.g. "follow the link to the admin
+    page") then it's likely there will be many more failures. This module
+    aims to alleviate this problem, as well as provide a nicer interface to
+    Test::WWW::Mechanize.
+
+    The central idea is that of "flow". Each flow is a sequence of commands
+    ("fill in this form") and assertions ("content should contain
+    'testuser'"). If any of these commands or assertions fail then the flow
+    is aborted. Only that one failure is reported to the test harness and
+    user. Flows may also contain other flows. If an inner flow fails, then
+    the outer flow fails as well.
+
+FLOWS AND SESSIONS
+  session NAME => run { CODE }
+    Sessions are a way of associating a set of flows with a WWWW::Mechanize
+    instance. A session is mostly equivalent with a user interacting with
+    your web app.
+
+    Within a session, every command ("get", "click link", etc) is operating
+    on that session's WWW::Mechanize instance. You may have multiple
+    sessions in one test file. Two sessions with the same name are in fact
+    the same session. This lets you write code like the following,
+    simplified slightly:
+
+        session 'first user' => run {
+            get "$URL/give?task=1&victim=other";
+            session 'other user' => run {
+                get "$URL/tasks";
+                content should match qr/task 1/;
+
+                # this is the same session/mech as the outermost 'first user'
+                session 'first user' => run {
+                    get "$URL/tasks";
+                    content shouldnt match qr/task 1/;
+                };
+            };
+        };
+
+  flow NAME => check { CODE }
+    A flow encompasses a single test. As described above, each flow is a
+    sequence of commands, assertions, and other flows. If any of the
+    components of a flow fail, the rest of the flow is aborted and one or
+    more test failures are reported to the test harness.
+
+COMMANDS
+  get URL
+  click button
+  click href
+  follow_link
+  fill form NAME => {FIELD1 => VALUE1, FIELD2 => VALUE2}
+ASSERTIONS
+    Every assertion has two parts: a subject and a verb.
+
+  SUBJECTS
+   content
+   title
+   url
+  VERBS
+   should(nt) (caselessly) match REGEX
+   should(nt) (caselessly) contain STRING
+   should(nt) (caselessly) lack STRING
+   should(nt) (caselessly) equal STRING
+SUBCLASSING
+    One of the goals of this module is to let you subclass it to provide
+    extra features, such as automatically logging in a user each time a
+    session is created.
+
+CAVEATS
+    If you fail any tests, then the actual number of tests run may be fewer
+    than you have in your file. This is because when a flow fails, it
+    immediately aborts the rest of its body (which may include other flows).
+    So if you're setting the number of tests based on how many ran, make
+    sure that all tests passed.
+
+BUGS
+    Hopefully few. We'd like to know about any of them. Please report them
+    to "bug-test-www-declare@rt.cpan.org".
+
+SEE ALSO
+    Test::WWW::Mechanize, Jifty.
+
+MAINTAINER
+    Shawn M Moore "<sartak@bestpractical.com>"
+
+ORIGINAL AUTHOR
+    Jesse Vincent "<jesse@bestpractical.com>"
+
+COPYRIGHT
+    Copyright 2007 Best Practical Solutions, LLC
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
