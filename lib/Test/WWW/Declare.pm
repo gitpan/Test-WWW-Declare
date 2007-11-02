@@ -5,7 +5,7 @@ use base 'Test::More';
 use Test::WWW::Mechanize;
 use Test::Builder;
 
-our $VERSION  = '0.01_01';
+our $VERSION  = '0.01';
 
 our @EXPORT = qw(flow run get session check mech match follow_link content
                  should shouldnt click href button fill form SKIP _twd_dummy
@@ -35,6 +35,10 @@ sub import_extra {
 =head1 NAME
 
 Test::WWW::Declare - declarative testing for your web app
+
+=head1 VERSION
+
+0.01
 
 =head1 SYNOPSIS
 

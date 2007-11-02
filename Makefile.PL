@@ -3,12 +3,15 @@ use inc::Module::Install;
 name     'Test-WWW-Declare';
 all_from 'lib/Test/WWW/Declare.pm';
 
-requires 'Test::WWW::Mechanize';
-requires 'Test::Builder';
-requires 'Test::More';
-
-build_requires 'HTTP::Server::Simple::CGI';
 build_requires 'Test::Tester';
+build_requires 'HTTP::Server::Simple::CGI';
+
+# Work around Test::Builder's complaint about the need to preload Test::Tester.
+$INC{'Test/Tester.pm'} = __FILE__;
+
+requires 'Test::More';
+requires 'Test::Builder';
+requires 'Test::WWW::Mechanize';
 
 WriteAll;
 

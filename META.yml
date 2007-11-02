@@ -1,6 +1,6 @@
 --- 
-abstract: declarative testing for your web app
-author: Shawn M Moore C<< <sartak@bestpractical.com> >>
+abstract: ~
+author: Best Practical Solutions, LLC
 build_requires: 
   HTTP::Server::Simple::CGI: 0
   Test::Tester: 0
@@ -19,4 +19,4 @@ requires:
   Test::Builder: 0
   Test::More: 0
   Test::WWW::Mechanize: 0
-version: 0.01_01
+version: 0.01
