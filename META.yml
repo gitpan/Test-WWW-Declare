@@ -1,11 +1,12 @@
 --- 
-abstract: ~
-author: Best Practical Solutions, LLC
+abstract: declarative testing for your web app
+author: 
+  - Best Practical Solutions, LLC
 build_requires: 
-  HTTP::Server::Simple::CGI: 0
-  Test::Tester: 0
+  HTTP::Server::Simple: 0.35
+  Test::Tester: 0.107
 distribution_type: module
-generated_by: Module::Install version 0.67
+generated_by: Module::Install version 0.70
 license: perl
 meta-spec: 
   url: http://module-build.sourceforge.net/META-spec-v1.3.html
@@ -19,4 +20,4 @@ requires:
   Test::Builder: 0
   Test::More: 0
   Test::WWW::Mechanize: 0
-version: 0.01
+version: 0.02

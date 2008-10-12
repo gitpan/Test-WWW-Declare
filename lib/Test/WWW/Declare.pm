@@ -5,7 +5,7 @@ use base 'Test::More';
 use Test::WWW::Mechanize;
 use Test::Builder;
 
-our $VERSION  = '0.01';
+our $VERSION  = '0.02';
 
 our @EXPORT = qw(flow run get session check mech match follow_link content
                  should shouldnt click href button fill form SKIP _twd_dummy
@@ -35,10 +35,6 @@ sub import_extra {
 =head1 NAME
 
 Test::WWW::Declare - declarative testing for your web app
-
-=head1 VERSION
-
-0.01
 
 =head1 SYNOPSIS
 
@@ -82,7 +78,7 @@ flows. If an inner flow fails, then the outer flow fails as well.
 
 =head2 session NAME => run { CODE }
 
-Sessions are a way of associating a set of flows with a L<WWWW::Mechanize>
+Sessions are a way of associating a set of flows with a L<WWW::Mechanize>
 instance. A session is mostly equivalent with a user interacting with your web
 app.
 
@@ -485,7 +481,7 @@ Jesse Vincent C<< <jesse@bestpractical.com> >>
 
 =head1 COPYRIGHT
 
-Copyright 2007 Best Practical Solutions, LLC
+Copyright 2007-2008 Best Practical Solutions, LLC
 
 This program is free software; you can redistribute it and/or modify it under the same terms as Perl itself.
 

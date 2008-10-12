@@ -95,7 +95,7 @@ use Test::Tester;
 use Test::WWW::Declare;
 use base 'Test::More';
 
-our $VERSION = '0.01_01';
+our $VERSION = '0.02';
 our @EXPORT = qw($PORT $SERVER $PID);
 
 our $PORT = 12321;
